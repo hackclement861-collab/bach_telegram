@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BachElle </title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
+body{background:#0f0f0f;color:white}
+.hero{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#6a11cb,#2575fc)}
+.hero h1{font-size:48px;margin-bottom:10px} .hero p{font-size:18px;opacity:.9}
+.form-box{max-width:500px;margin:-40px auto 40px;background:white;color:#222;padding:30px;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.3)}
+input,textarea{width:100%;padding:16px;margin:10px 0;border:1px solid #ddd;border-radius:12px;font-size:16px}
+button.main{width:100%;padding:18px;background:#2575fc;color:white;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer}
+button.main:hover{background:#1a5ad9}
+.whatsapp{display:block;text-align:center;margin-top:15px;padding:15px;background:#25D366;color:white;border-radius:12px;text-decoration:none;font-weight:bold}
+.status{text-align:center;margin-top:15px;font-weight:bold}
+.badge{display:inline-block;background:gold;color:black;padding:5px 15px;border-radius:20px;margin-top:15px}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>BachElle</h1>
+<p>discutons de nos projet</p>
+<span class="badge">✨ Disponible pour vos projets</span>
+</div>
+<div class="form-box">
+<h2 style="text-align:center;margin-bottom:10px">Discutons de ton projet</h2>
+<input id="nom" placeholder="Ton nom complet">
+<input id="phone" placeholder="Ton WhatsApp ex: +243...">
+<textarea id="msg" placeholder="Parle-moi de ton projet..."></textarea>
+<button class="main" onclick="envoyer()">Envoyer sur Telegram 🚀</button>
+<a class="whatsapp" href="https://wa.me/243906935164" target="_blank">Ou contacte-nous sur WhatsApp 💬</a>
+<p id="status" class="status"></p>
+</div>
+<script>
+async function envoyer(){
+  const nom=document.getElementById('nom').value, phone=document.getElementById('phone').value, msg=document.getElementById('msg').value;
+  if(!nom||!phone||!msg){alert("Remplis tout Boss");return}
+  document.getElementById('status').innerText="⏳ Envoi en cours...";
+  const res=await fetch('/send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom,phone,msg})});
+  if(res.ok){document.getElementById('status').innerText="✅ Merci ! nous allons vous contacter vite sur WhatsApp !"; document.getElementById('nom').value='';document.getElementById('phone').value='';document.getElementById('msg').value='';}
+  else document.getElementById('status').innerText="❌ Erreur, réessaie";
+}
+</script>
+</body>
+</html>
