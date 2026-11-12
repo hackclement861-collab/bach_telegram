@@ -33,7 +33,10 @@ app.post('/send', async (req, res) => {
   fs.writeFileSync('clients.json', JSON.stringify(db, null, 2));
 
   // Envoi Telegram
-  const texte = `🔥 NOUVEAU CLIENT BACHELLE\n👤 Nom: ${nom}\n📞 Tel: ${phone}\n📝 Projet: ${msg}\n⏰ Date: ${date}\n📍 Kinshasa`;
+  const phonePropre = phone.replace(/\D/g, '');
+const phoneWhatsApp = phonePropre.startsWith('0') ? '243' + phonePropre.slice(1) : phonePropre;
+const lienWhatsApp = `https://wa.me/${phoneWhatsApp}`;
+ const texte = `🔥 NOUVEAU CLIENT BACHELLE\n👤 Nom: ${nom}\n📞 Tel: ${phone}\n💬 Répondre sur WhatsApp: ${lienWhatsApp}\n📝 Projet: ${msg}\n⏰ Date: ${date}\n📍 Kinshasa`;
   try{
     await sendTelegram(texte);
     console.log("Client sauvé + Telegram envoyé:", nom);
